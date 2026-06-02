@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AK Wealth | Arjun Khanal – NEPSE Portfolio Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d1b2e;
+    --bg2: #0e1f35;
+    --bg3: #122540;
+    --card: #132848;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --gold: #c9a84c;
+    --gold2: #e8c96a;
+    --gold-dim: rgba(201,168,76,0.12);
+    --gold-glow: rgba(201,168,76,0.25);
+    --teal: #2dd4bf;
+    --teal-dim: rgba(45,212,191,0.1);
+    --text: #f0ede6;
+    --text2: #8fa8c4;
+    --text3: #4a6480;
+    --green: #4ade80;
+    --red: #f87171;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 72px;
+    background: rgba(13,27,46,0.88);
+    backdrop-filter: blur(20px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .logo {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+  .logo span { color: var(--text); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    color: var(--text2); text-decoration: none; font-size: 13px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: transparent;
+    border: 0.5px solid var(--gold);
+    color: var(--gold);
+    padding: 9px 22px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--bg); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 5vw 80px;
+    position: relative;
+    overflow: hidden;
+    gap: 60px;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(45,212,191,0.05) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 28px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block; width: 36px; height: 0.5px;
+    background: var(--gold);
+  }
+  .hero h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    font-size: 15px; color: var(--text2);
+    max-width: 480px; margin-bottom: 48px; line-height: 1.8;
+  }
+  .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--bg);
+    padding: 14px 32px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-ghost {
+    color: var(--text2); font-size: 13px; text-decoration: none;
+    letter-spacing: 0.06em; display: flex; align-items: center; gap: 8px;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--text); }
+  .btn-ghost svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 0.5px solid var(--border);
+    margin-top: 60px;
+  }
+  .hero-stat { background: var(--bg); padding: 24px 28px; }
+  .hero-stat-val {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hero-stat-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); }
+
+  /* Hero Right — Dashboard mockup */
+  .hero-dashboard {
+    background: var(--card);
+    border: 0.5px solid var(--border2);
+    padding: 28px;
+    position: relative;
+    animation: floatUp 0.9s ease-out both;
+  }
+  @keyframes floatUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .dash-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px;
+  }
+  .dash-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text2); }
+  .dash-badge { background: var(--teal-dim); color: var(--teal); font-size: 10px; padding: 3px 10px; letter-spacing: 0.08em; }
+  .dash-value { font-family: var(--font-serif); font-size: 38px; color: var(--text); margin-bottom: 4px; line-height: 1; }
+  .dash-change { color: var(--green); font-size: 13px; margin-bottom: 24px; }
+  .chart-area { height: 90px; position: relative; margin-bottom: 24px; }
+  .chart-area svg { width: 100%; height: 100%; }
+  .dash-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-top: 0.5px solid var(--border);
+  }
+  .dash-row-label { font-size: 12px; color: var(--text2); }
+  .dash-row-val { font-size: 13px; color: var(--text); }
+  .dash-row-val.up { color: var(--green); }
+  .allocation-bar { height: 5px; background: var(--border); margin-top: 16px; display: flex; }
+  .alloc-seg { height: 100%; }
+
+  /* ─── SECTION COMMON ─── */
+  section { padding: 100px 5vw; }
+  .section-eyebrow {
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-eyebrow::before { content: ''; display: block; width: 28px; height: 0.5px; background: var(--gold); }
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400; line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .section-sub { color: var(--text2); max-width: 520px; margin-bottom: 60px; line-height: 1.8; }
+  .divider { border: none; border-top: 0.5px solid var(--border); }
+
+  /* ─── ABOUT ─── */
+  .about-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
+  .about-portrait {
+    aspect-ratio: 3/4;
+    background: var(--bg3);
+    border: 0.5px solid var(--border2);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .about-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  .portrait-label {
+    position: absolute; bottom: 20px; left: 20px;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text2); background: rgba(13,27,46,0.85); padding: 6px 14px;
+  }
+  .about-quote {
+    font-family: var(--font-serif);
+    font-size: 24px; font-style: italic;
+    color: var(--text2); line-height: 1.5;
+    border-left: 1.5px solid var(--gold);
+    padding-left: 24px;
+    margin-bottom: 36px;
+  }
+  .about-body { color: var(--text2); line-height: 1.9; margin-bottom: 36px; }
+  .credentials { display: flex; flex-direction: column; gap: 12px; }
+  .cred {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 16px 20px;
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .cred:hover { border-color: var(--border2); }
+  .cred-icon {
+    width: 32px; height: 32px;
+    background: var(--gold-dim);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .cred-icon svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+  .cred-title { font-size: 13px; color: var(--text); margin-bottom: 2px; }
+  .cred-sub { font-size: 12px; color: var(--text3); }
+
+  /* ─── PERFORMANCE ─── */
+  .perf-section { background: var(--bg2); }
+  .perf-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); margin-bottom: 60px; }
+  .perf-card { background: var(--bg2); padding: 36px 28px; text-align: center; transition: background 0.2s; }
+  .perf-card:hover { background: var(--card); }
+  .perf-val { font-family: var(--font-serif); font-size: 48px; color: var(--gold); line-height: 1; margin-bottom: 8px; }
+  .perf-label { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); }
+
+  .chart-legend { display: flex; gap: 24px; margin-bottom: 20px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text2); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .bars-wrap { display: flex; align-items: flex-end; gap: 12px; height: 180px; padding-bottom: 32px; position: relative; }
+  .bars-wrap::after { content: ''; position: absolute; bottom: 32px; left: 0; right: 0; height: 0.5px; background: var(--border); }
+  .bar { width: 100%; min-height: 4px; position: relative; transition: opacity 0.2s; }
+  .bar:hover { opacity: 0.85; }
+  .bar-tooltip {
+    display: none; position: absolute; bottom: calc(100% + 6px); left: 50%;
+    transform: translateX(-50%);
+    background: var(--card); border: 0.5px solid var(--border2);
+    padding: 5px 10px; font-size: 11px; color: var(--text); white-space: nowrap; z-index: 10;
+  }
+  .bar:hover .bar-tooltip { display: block; }
+
+  /* ─── SERVICES ─── */
+  .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5px; background: var(--border); }
+  .service-card {
+    background: var(--bg);
+    padding: 40px 32px;
+    border: 0.5px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+    cursor: default;
+    position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.5px;
+    background: var(--gold); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-card:hover { background: var(--card); border-color: var(--border); }
+  .service-num { font-family: var(--font-serif); font-size: 48px; color: var(--border2); line-height: 1; margin-bottom: 20px; font-style: italic; }
+  .service-title { font-family: var(--font-serif); font-size: 22px; margin-bottom: 14px; color: var(--text); }
+  .service-desc { font-size: 13px; color: var(--text2); line-height: 1.8; margin-bottom: 20px; }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border: 0.5px solid var(--border2); color: var(--text3); }
+
+  /* ─── PHILOSOPHY ─── */
+  .philosophy-section { background: var(--bg2); }
+  .philosophy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .philosophy-list { display: flex; flex-direction: column; gap: 32px; }
+  .phil-item { display: flex; gap: 24px; align-items: flex-start; }
+  .phil-num { font-family: var(--font-serif); font-style: italic; font-size: 36px; color: var(--gold); opacity: 0.4; line-height: 1; flex-shrink: 0; width: 36px; }
+  .phil-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; color: var(--text); }
+  .phil-desc { font-size: 13px; color: var(--text2); line-height: 1.8; }
+  .philosophy-quote { font-family: var(--font-serif); font-size: clamp(28px, 3vw, 42px); font-style: italic; line-height: 1.4; color: var(--text2); }
+  .philosophy-quote strong { color: var(--gold); font-style: normal; font-weight: 400; }
+
+  /* ─── PROCESS ─── */
+  .process-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 40px; position: relative; }
+  .process-steps::before {
+    content: ''; position: absolute; top: 28px; left: 5%; right: 5%; height: 0.5px;
+    background: linear-gradient(90deg, transparent, var(--border2) 20%, var(--border2) 80%, transparent);
+  }
+  .step-num {
+    width: 56px; height: 56px; border: 0.5px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-serif); font-style: italic; font-size: 22px;
+    color: var(--gold); margin-bottom: 20px; background: var(--bg); position: relative; z-index: 1;
+  }
+  .step-title { font-size: 15px; font-weight: 500; margin-bottom: 8px; color: var(--text); }
+  .step-desc { font-size: 12px; color: var(--text2); line-height: 1.8; }
+
+  /* ─── TESTIMONIALS ─── */
+  .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .testi-card { background: var(--bg3); border: 0.5px solid var(--border); padding: 32px; transition: border-color 0.2s; }
+  .testi-card:hover { border-color: var(--border2); }
+  .testi-stars { color: var(--gold); font-size: 12px; margin-bottom: 20px; letter-spacing: 2px; }
+  .testi-text { font-family: var(--font-serif); font-size: 16px; font-style: italic; color: var(--text2); line-height: 1.7; margin-bottom: 24px; }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    overflow: hidden; border: 1.5px solid var(--gold);
+    flex-shrink: 0; background: var(--bg3);
+  }
+  .testi-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .testi-avatar-init {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--gold-dim); border: 0.5px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-serif); font-size: 14px; color: var(--gold); flex-shrink: 0;
+  }
+  .testi-name { font-size: 13px; color: var(--text); margin-bottom: 2px; }
+  .testi-role { font-size: 11px; color: var(--text3); }
+
+  /* ─── CONTACT ─── */
+  .contact-section { background: var(--bg2); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; }
+  .contact-info-block { display: flex; flex-direction: column; gap: 28px; }
+  .contact-item { display: flex; gap: 16px; align-items: flex-start; }
+  .contact-icon { width: 40px; height: 40px; background: var(--gold-dim); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .contact-icon svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+  .contact-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3); margin-bottom: 4px; }
+  .contact-val { font-size: 14px; color: var(--text); }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); }
+  .form-input, .form-select, .form-textarea {
+    background: var(--bg); border: 0.5px solid var(--border2);
+    color: var(--text); padding: 12px 16px;
+    font-family: var(--font-sans); font-size: 14px;
+    outline: none; transition: border-color 0.2s; width: 100%; resize: vertical;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); }
+  .form-select { appearance: none; cursor: pointer; }
+  .form-textarea { min-height: 120px; }
+  .form-submit {
+    background: var(--gold); color: var(--bg); border: none;
+    padding: 16px 40px; font-family: var(--font-sans); font-size: 12px;
+    letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500;
+    cursor: pointer; transition: opacity 0.2s, transform 0.2s;
+    align-self: flex-start; margin-top: 8px;
+  }
+  .form-submit:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--bg); border-top: 0.5px solid var(--border);
+    padding: 48px 5vw 32px; display: flex; flex-direction: column; gap: 32px;
+  }
+  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .footer-logo { font-family: var(--font-serif); font-size: 24px; color: var(--gold); letter-spacing: 0.08em; }
+  .footer-tagline { font-size: 12px; color: var(--text3); margin-top: 4px; }
+  .footer-links { display: flex; flex-direction: column; gap: 10px; }
+  .footer-link { font-size: 12px; color: var(--text2); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s; }
+  .footer-link:hover { color: var(--gold); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 0.5px solid var(--border); padding-top: 24px; }
+  .footer-copy { font-size: 11px; color: var(--text3); }
+  .footer-disclaimer { font-size: 10px; color: var(--text3); max-width: 480px; line-height: 1.6; text-align: right; }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease-out, transform 0.7s ease-out; }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-dashboard { display: none; }
+    .about-grid, .philosophy-grid, .contact-grid { grid-template-columns: 1fr; }
+    .perf-grid { grid-template-columns: 1fr 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">AK<span>Wealth</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#performance">Performance</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book a Consultation</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">NEPSE Certified Portfolio Manager</div>
+    <h1>Intelligent<br><em>Wealth Growth</em><br>in Nepal's Markets</h1>
+    <p class="hero-sub">Arjun Khanal brings 10 years of disciplined NEPSE expertise — delivering consistent 20% annual returns through research-driven portfolio management and personalized advisory.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Start Investing</a>
+      <a href="#performance" class="btn-ghost">
+        View Performance
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-val">20%+</div>
+        <div class="hero-stat-label">Annual Return</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">10 Yrs</div>
+        <div class="hero-stat-label">NEPSE Experience</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">₹2Cr+</div>
+        <div class="hero-stat-label">Assets Managed</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">50+</div>
+        <div class="hero-stat-label">Active Clients</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Mockup -->
+  <div class="hero-dashboard">
+    <div class="dash-header">
+      <span class="dash-title">Portfolio Overview</span>
+      <span class="dash-badge">Live</span>
+    </div>
+    <div class="dash-value">NPR 1,24,85,000</div>
+    <div class="dash-change">▲ +20.4% this year</div>
+    <div class="chart-area">
+      <svg viewBox="0 0 400 90" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,70 C30,65 50,72 80,60 C110,48 130,55 160,42 C190,30 210,38 240,28 C270,18 290,22 320,15 C350,8 370,12 400,6" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity="0.9"/>
+        <path d="M0,70 C30,65 50,72 80,60 C110,48 130,55 160,42 C190,30 210,38 240,28 C270,18 290,22 320,15 C350,8 370,12 400,6 L400,90 L0,90 Z" fill="url(#lineGrad)"/>
+        <circle cx="400" cy="6" r="3" fill="#c9a84c"/>
+      </svg>
+    </div>
+    <div class="dash-row">
+      <span class="dash-row-label">Banking Sector</span>
+      <span class="dash-row-val up">+24.2%</span>
+    </div>
+    <div class="dash-row">
+      <span class="dash-row-label">Hydropower</span>
+      <span class="dash-row-val up">+18.7%</span>
+    </div>
+    <div class="dash-row">
+      <span class="dash-row-label">Insurance</span>
+      <span class="dash-row-val up">+15.1%</span>
+    </div>
+    <div class="allocation-bar" style="margin-top:20px;">
+      <div class="alloc-seg" style="width:45%; background:#c9a84c;"></div>
+      <div class="alloc-seg" style="width:30%; background:#2dd4bf;"></div>
+      <div class="alloc-seg" style="width:25%; background:#2a4a6e;"></div>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:8px;">
+      <span style="font-size:10px;color:var(--text3);display:flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;background:#c9a84c;border-radius:50%;display:inline-block;"></span>Banking 45%</span>
+      <span style="font-size:10px;color:var(--text3);display:flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;background:#2dd4bf;border-radius:50%;display:inline-block;"></span>Hydro 30%</span>
+      <span style="font-size:10px;color:var(--text3);display:flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;background:#2a4a6e;border-radius:50%;display:inline-block;"></span>Other 25%</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid fade-in">
+    <div class="about-portrait">
+      <img src="IMG_5423.jpg" alt="Arjun Khanal – Portfolio Manager" />
+      <span class="portrait-label">Arjun Khanal — PMS Specialist</span>
+    </div>
+    <div class="about-content">
+      <div class="section-eyebrow">About</div>
+      <h2 class="section-title">A Decade of <em>Precision</em> in Nepal's Capital Markets</h2>
+      <p class="about-quote">"Wealth isn't built in a day — it's cultivated through discipline, research, and an unwavering commitment to our clients' goals."</p>
+      <p class="about-body">With over 10 years navigating the Nepal Stock Exchange (NEPSE), Arjun Khanal has established himself as one of Kathmandu's most trusted portfolio managers. Having served as a PMS specialist at <strong>Kalas Stock Brokerage</strong>, he brings institutional-grade research and risk management to individual and institutional investors alike.</p>
+      <p class="about-body">His personal trading account has consistently delivered <strong>20%+ annual returns</strong> — a testament to the same strategies he employs for his clients across all market cycles.</p>
+      <div class="credentials">
+        <div class="cred">
+          <div class="cred-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          <div>
+            <div class="cred-title">Portfolio Management Specialist</div>
+            <div class="cred-sub">Kalas Stock Brokerage, Kathmandu — 10 Years</div>
+          </div>
+        </div>
+        <div class="cred">
+          <div class="cred-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div>
+            <div class="cred-title">NEPSE Certified Analyst</div>
+            <div class="cred-sub">Nepal Stock Exchange — Licensed Broker & Advisor</div>
+          </div>
+        </div>
+        <div class="cred">
+          <div class="cred-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+          <div>
+            <div class="cred-title">20%+ Personal Annual Returns</div>
+            <div class="cred-sub">Consistent track record across bull & bear cycles</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PERFORMANCE -->
+<section id="performance" class="perf-section">
+  <div class="section-eyebrow">Track Record</div>
+  <h2 class="section-title">Performance That <em>Speaks</em></h2>
+  <p class="section-sub">Audited returns across AK Wealth–managed portfolios and personal accounts, benchmarked against the NEPSE index.</p>
+  <div class="perf-grid fade-in">
+    <div class="perf-card"><div class="perf-val">20%+</div><div class="perf-label">Avg. Annual Return</div></div>
+    <div class="perf-card"><div class="perf-val">1.8×</div><div class="perf-label">vs NEPSE Benchmark</div></div>
+    <div class="perf-card"><div class="perf-val">0.72</div><div class="perf-label">Sharpe Ratio</div></div>
+    <div class="perf-card"><div class="perf-val">NPR 2Cr</div><div class="perf-label">AUM Under Advisory</div></div>
+  </div>
+  <div class="fade-in">
+    <div class="chart-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gold);"></div>AK Wealth Returns</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--text3);"></div>NEPSE Index</div>
+    </div>
+    <div class="bars-wrap" id="barsWrap"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-eyebrow">What We Offer</div>
+  <h2 class="section-title">Services Crafted for <em>Every Investor</em></h2>
+  <p class="section-sub">Whether you're starting your investment journey or managing a substantial portfolio, AK Wealth offers tailored services to match your ambitions.</p>
+  <div class="services-grid fade-in">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <h3 class="service-title">Portfolio Management Service</h3>
+      <p class="service-desc">Full discretionary management of your NEPSE portfolio. We handle stock selection, timing, rebalancing, and reporting — you watch your wealth grow.</p>
+      <div class="service-tags"><span class="tag">Discretionary</span><span class="tag">Monthly Reports</span><span class="tag">Risk Managed</span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <h3 class="service-title">Stock Advisory</h3>
+      <p class="service-desc">Research-backed buy/sell/hold recommendations for NEPSE stocks. Get sector analysis, entry-exit points, and real-time alerts delivered directly to you.</p>
+      <div class="service-tags"><span class="tag">Buy/Sell Signals</span><span class="tag">Sector Research</span><span class="tag">Real-time Alerts</span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <h3 class="service-title">Investment Planning</h3>
+      <p class="service-desc">Comprehensive financial planning aligned with your goals — retirement, wealth preservation, or capital growth. Custom strategies for every life stage.</p>
+      <div class="service-tags"><span class="tag">Goal-Based</span><span class="tag">Tax Efficient</span><span class="tag">Long-term</span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <h3 class="service-title">IPO & Rights Advisory</h3>
+      <p class="service-desc">Expert guidance on upcoming IPOs, FPOs, and rights shares in Nepal. Evaluate opportunities, calculate allotment odds, and position your portfolio ahead of listings.</p>
+      <div class="service-tags"><span class="tag">IPO Analysis</span><span class="tag">FPO Strategy</span><span class="tag">Rights Shares</span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <h3 class="service-title">Sector Research Reports</h3>
+      <p class="service-desc">Deep-dive quarterly reports on NEPSE's key sectors: Banking, Hydropower, Insurance, and Manufacturing. Essential reading for serious investors.</p>
+      <div class="service-tags"><span class="tag">Banking</span><span class="tag">Hydropower</span><span class="tag">Insurance</span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <h3 class="service-title">Investor Education</h3>
+      <p class="service-desc">Workshops, webinars, and one-on-one sessions for new investors. Learn fundamental and technical analysis, risk management, and how to read NEPSE data confidently.</p>
+      <div class="service-tags"><span class="tag">Workshops</span><span class="tag">Webinars</span><span class="tag">1-on-1 Sessions</span></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PHILOSOPHY -->
+<section class="philosophy-section">
+  <div class="philosophy-grid fade-in">
+    <div class="philosophy-list">
+      <div class="section-eyebrow">Investment Philosophy</div>
+      <div class="phil-item">
+        <div class="phil-num">I</div>
+        <div>
+          <div class="phil-title">Fundamental Conviction</div>
+          <div class="phil-desc">Every position is backed by rigorous fundamental analysis — earnings quality, balance sheet strength, and sector outlook before any technical timing.</div>
+        </div>
+      </div>
+      <div class="phil-item">
+        <div class="phil-num">II</div>
+        <div>
+          <div class="phil-title">Disciplined Risk Management</div>
+          <div class="phil-desc">Strict position sizing, diversification across NEPSE sectors, and pre-defined stop-loss levels protect capital in all market conditions.</div>
+        </div>
+      </div>
+      <div class="phil-item">
+        <div class="phil-num">III</div>
+        <div>
+          <div class="phil-title">Long-Term Orientation</div>
+          <div class="phil-desc">We identify undervalued Nepali businesses and hold them through cycles, letting compounding do the heavy lifting over 3–5 year horizons.</div>
+        </div>
+      </div>
+      <div class="phil-item">
+        <div class="phil-num">IV</div>
+        <div>
+          <div class="phil-title">Complete Transparency</div>
+          <div class="phil-desc">Monthly performance reports, detailed trade rationales, and open communication ensure you always understand exactly where your money is and why.</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;">
+      <p class="philosophy-quote">In Nepal's markets, <strong>patience</strong> and <strong>research</strong> compound just as powerfully as capital. We invest with both.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-eyebrow">How It Works</div>
+  <h2 class="section-title">Your Journey to <em>Smarter Returns</em></h2>
+  <p class="section-sub">A clear, four-step process designed to get you invested with confidence and keep you informed throughout.</p>
+  <div class="process-steps fade-in">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-title">Free Consultation</div>
+      <div class="step-desc">A 30-minute call to understand your financial goals, risk appetite, investment horizon, and current holdings.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-title">Custom Strategy</div>
+      <div class="step-desc">We design a personalised NEPSE portfolio strategy with target allocations, sector exposure, and projected return scenarios.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-title">Portfolio Execution</div>
+      <div class="step-desc">Systematic deployment of capital into selected securities with precise entry timing and documented trade rationales.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-title">Monitor & Report</div>
+      <div class="step-desc">Monthly performance reports, quarterly strategy reviews, and continuous monitoring with rebalancing as market conditions evolve.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="section-eyebrow">Client Voices</div>
+  <h2 class="section-title">Trusted by Investors <em>Across Nepal</em></h2>
+  <div class="testi-grid fade-in">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Arjun's systematic approach completely changed how I think about investing in NEPSE. My portfolio has grown 28% in 14 months under his management."</p>
+      <div class="testi-author">
+        <div class="testi-avatar"><img src="1.jpg" alt="Rajesh Bista" /></div>
+        <div>
+          <div class="testi-name">Rajesh Bista</div>
+          <div class="testi-role">Business Owner, Pokhara</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The monthly reports are incredibly detailed. I finally understand where my money is and why. It's the transparency I always wanted from a portfolio manager."</p>
+      <div class="testi-author">
+        <div class="testi-avatar"><img src="3.jpg" alt="Sushila Maharjan" /></div>
+        <div>
+          <div class="testi-name">Sushila Maharjan</div>
+          <div class="testi-role">Doctor, Kathmandu</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"His IPO advisory alone has been worth the fee. He predicted the listing performance of three consecutive IPOs with remarkable accuracy. Highly recommended."</p>
+      <div class="testi-author">
+        <div class="testi-avatar"><img src="2.jpg" alt="Pradeep Joshi" /></div>
+        <div>
+          <div class="testi-name">Pradeep Joshi</div>
+          <div class="testi-role">Engineer, Lalitpur</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="section-eyebrow">Get In Touch</div>
+  <h2 class="section-title">Begin Your <em>Wealth Journey</em></h2>
+  <p class="section-sub">Schedule a free 30-minute consultation. No obligation, no jargon — just an honest conversation about your financial goals.</p>
+  <div class="contact-grid fade-in">
+    <div class="contact-info-block">
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div>
+          <div class="contact-label">Office Location</div>
+          <div class="contact-val">Kalas Stock Brokerage<br>Kathmandu, Nepal</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.19a2 2 0 012-2.18h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 6.08a16 16 0 006 6l.34-.34a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 13.92z"/></svg></div>
+        <div>
+          <div class="contact-label">Phone / WhatsApp</div>
+          <div class="contact-val">+977-9863501782</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-val">arjunkhanal1999@gmail.com</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div>
+          <div class="contact-label">Consultation Hours</div>
+          <div class="contact-val">Sun–Fri, 10:00 AM – 5:00 PM NPT</div>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input class="form-input" type="text" placeholder="Your full name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input class="form-input" type="tel" placeholder="+977 98XX XXX XXX" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" placeholder="you@example.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Service Interested In</label>
+        <select class="form-select">
+          <option value="">Select a service…</option>
+          <option>Portfolio Management (PMS)</option>
+          <option>Stock Advisory</option>
+          <option>IPO & Rights Advisory</option>
+          <option>Investment Planning</option>
+          <option>Sector Research Reports</option>
+          <option>Investor Education</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Investment Amount (NPR)</label>
+        <select class="form-select">
+          <option value="">Select range…</option>
+          <option>Below 5 Lakhs</option>
+          <option>5 – 25 Lakhs</option>
+          <option>25 Lakhs – 1 Crore</option>
+          <option>1 Crore+</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message (Optional)</label>
+        <textarea class="form-textarea" placeholder="Tell me about your investment goals or any questions you have…"></textarea>
+      </div>
+      <button type="submit" class="form-submit">Send Message →</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">AK Wealth</div>
+      <div class="footer-tagline">Intelligent Portfolio Management for Nepal's Investors</div>
+    </div>
+    <div class="footer-links">
+      <a href="#about" class="footer-link">About Arjun Khanal</a>
+      <a href="#performance" class="footer-link">Performance Track Record</a>
+      <a href="#services" class="footer-link">Services</a>
+      <a href="#contact" class="footer-link">Contact & Consultation</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 AK Wealth · Arjun Khanal · Kathmandu, Nepal</div>
+    <div class="footer-disclaimer">Past performance does not guarantee future returns. Investing in NEPSE involves market risk. Please read all scheme-related documents carefully before investing.</div>
+  </div>
+</footer>
+
+<script>
+const years = ['2019','2020','2021','2022','2023','2024'];
+const akReturns = [22, 18, 31, 15, 24, 21];
+const nepseReturns = [10, 7, 19, 5, 14, 11];
+const maxVal = 35;
+const wrap = document.getElementById('barsWrap');
+years.forEach((yr, i) => {
+  const group = document.createElement('div');
+  group.style.cssText = 'display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:1;';
+  const bars = document.createElement('div');
+  bars.style.cssText = 'display:flex;gap:4px;align-items:flex-end;width:100%;height:148px;';
+  const b1 = document.createElement('div');
+  b1.className = 'bar';
+  b1.style.cssText = `flex:1;background:var(--gold);height:${(akReturns[i]/maxVal)*100}%;position:relative;`;
+  b1.innerHTML = `<div class="bar-tooltip">${akReturns[i]}%</div>`;
+  const b2 = document.createElement('div');
+  b2.className = 'bar';
+  b2.style.cssText = `flex:1;background:var(--text3);height:${(nepseReturns[i]/maxVal)*100}%;position:relative;`;
+  b2.innerHTML = `<div class="bar-tooltip">${nepseReturns[i]}%</div>`;
+  bars.appendChild(b1); bars.appendChild(b2);
+  const label = document.createElement('div');
+  label.style.cssText = 'font-size:11px;color:var(--text3);text-align:center;padding-top:8px;width:100%;';
+  label.textContent = yr;
+  group.appendChild(bars); group.appendChild(label);
+  wrap.appendChild(group);
+});
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = 'Message Sent ✓';
+  btn.style.background = '#4ade80';
+  btn.style.color = '#0d1b2e';
+  setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = 'var(--gold)'; btn.style.color = 'var(--bg)'; }, 3000);
+}
+</script>
+</body>
+</html>
